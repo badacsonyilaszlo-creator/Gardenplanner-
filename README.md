@@ -9,6 +9,8 @@ A kertészeti vállalkozás háttérrendszere a VPS-en, a Hungry Doggie mellett,
 | NocoDB | CRM-felület (csak ha van elég szabad memória) | 384 MB |
 | Listmonk | Hírlevél, e-mail-listák | 128 MB |
 
+Az aktuális szerverállapot: a `status` ág `STATUS.md` fájlja (óránként frissül).
+
 Minden szolgáltatás csak a szerveren belül érhető el. Kívülről a domain és a HTTPS beállítása után lesznek elérhetők.
 
 ---
