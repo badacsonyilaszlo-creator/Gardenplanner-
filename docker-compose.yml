@@ -1,0 +1,107 @@
+# Kertészet – automatizálási rendszer
+# Minden szolgáltatás csak a szerveren belül érhető el (127.0.0.1),
+# és szigorú memóriakorlátot kap, hogy a Hungry Doggie alkalmazás mellett biztonságosan fusson.
+
+name: kertesz
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    mem_limit: 384m
+    environment:
+      POSTGRES_USER: kertesz
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: kertesz
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./config/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    command: >
+      postgres
+      -c shared_buffers=64MB
+      -c max_connections=40
+      -c work_mem=4MB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kertesz -d kertesz"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  n8n:
+    image: n8nio/n8n:stable
+    restart: unless-stopped
+    mem_limit: 768m
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_DATABASE: n8n
+      DB_POSTGRESDB_USER: kertesz
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+      N8N_HOST: ${N8N_HOST}
+      N8N_PROTOCOL: ${N8N_PROTOCOL}
+      WEBHOOK_URL: ${N8N_PUBLIC_URL}
+      N8N_SECURE_COOKIE: ${N8N_SECURE_COOKIE}
+      GENERIC_TIMEZONE: Europe/Budapest
+      TZ: Europe/Budapest
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      EXECUTIONS_DATA_PRUNE: "true"
+      EXECUTIONS_DATA_MAX_AGE: "336"
+      NODE_OPTIONS: --max-old-space-size=512
+    ports:
+      - "127.0.0.1:5678:5678"
+    volumes:
+      - n8ndata:/home/node/.n8n
+      - ./prompts:/data/prompts:ro
+
+  nocodb:
+    image: nocodb/nocodb:latest
+    restart: unless-stopped
+    mem_limit: 384m
+    profiles: ["crm"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NC_DB: pg://postgres:5432?u=kertesz&p=${POSTGRES_PASSWORD}&d=nocodb
+      NC_AUTH_JWT_SECRET: ${NOCODB_JWT_SECRET}
+      NC_DISABLE_TELE: "true"
+      NODE_OPTIONS: --max-old-space-size=320
+    ports:
+      - "127.0.0.1:8090:8080"
+    volumes:
+      - nocodata:/usr/app/data
+
+  listmonk:
+    image: listmonk/listmonk:latest
+    restart: unless-stopped
+    mem_limit: 128m
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      TZ: Europe/Budapest
+      LISTMONK_app__address: 0.0.0.0:9000
+      LISTMONK_db__host: postgres
+      LISTMONK_db__port: "5432"
+      LISTMONK_db__user: kertesz
+      LISTMONK_db__password: ${POSTGRES_PASSWORD}
+      LISTMONK_db__database: listmonk
+      LISTMONK_db__ssl_mode: disable
+      LISTMONK_ADMIN_USER: ${LISTMONK_ADMIN_USER}
+      LISTMONK_ADMIN_PASSWORD: ${LISTMONK_ADMIN_PASSWORD}
+    command: [sh, -c, "./listmonk --install --idempotent --yes --config '' && ./listmonk --upgrade --yes --config '' && ./listmonk --config ''"]
+    ports:
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - listmonkuploads:/listmonk/uploads
+
+volumes:
+  pgdata:
+  n8ndata:
+  nocodata:
+  listmonkuploads:
