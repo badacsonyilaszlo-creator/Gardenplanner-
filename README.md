@@ -21,7 +21,7 @@ ssh-keygen -t ed25519 -f ~/.ssh/kertesz_repo -N ""
 cat ~/.ssh/kertesz_repo.pub
 ```
 A kiírt sort (`ssh-ed25519 ...`) add hozzá a GitHubon:
-repó → **Settings → Deploy keys → Add deploy key** (cím: VPS, írási jog nem kell).
+repó → **Settings → Deploy keys → Add deploy key** (cím: VPS). **Pipáld be: Allow write access** – ezzel tölti fel a szerver az állapotjelentést (csak ehhez a repóhoz ad jogot).
 
 ### 2. Letöltés
 ```bash
@@ -56,7 +56,13 @@ cd ~/Gardenplanner- && git pull && bash setup.sh
 | Kézi mentés | `bash scripts/backup.sh` |
 | Leállítás | `docker compose --profile crm down` (az adatok megmaradnak) |
 
+## Automatikus frissítés
+A szerver 10 percenként megnézi a GitHubot; ha új verzió van, telepíti, és ha valami nem indul el, visszaáll az előzőre.
+Óránként állapotjelentést tölt fel a `status` ágra (STATUS.md) – jelszót és ügyféladatot nem tartalmaz.
+Napló: `backups/autoupdate.log`. Kikapcsolás: `crontab -e`, és töröld az autoupdate sort.
+
 ## Biztonság
+- A GitHub-fiókod védelme mostantól a szerveré is: kapcsold be a kétlépcsős azonosítást (2FA).
 - A jelszavak a `.env` fájlban vannak, csak a szerveren. Ez a fájl soha nem kerül a GitHubra.
 - API-kulcsot, jelszót soha ne másolj a chatbe.
 - Mentés: minden éjjel 03:30, a `backups/` mappába, 30 napig.

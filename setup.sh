@@ -67,6 +67,12 @@ if ! crontab -l 2>/dev/null | grep -q "kertesz-rendszer/scripts/backup.sh\|$MAPP
 fi
 mkdir -p backups
 
+# --- 6b. Automatikus frissítés és állapotjelentés (10 percenként) ---
+if ! crontab -l 2>/dev/null | grep -q "$MAPPA/scripts/autoupdate.sh"; then
+  ( crontab -l 2>/dev/null; echo "*/10 * * * * bash $MAPPA/scripts/autoupdate.sh" ) | crontab -
+  zold "✓ Automatikus frissítés bekapcsolva (10 percenként), állapotjelentés a GitHub 'status' ágára."
+fi
+
 # --- 7. Állapot ---
 sleep 8
 echo
