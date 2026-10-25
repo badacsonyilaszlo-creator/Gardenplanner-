@@ -1,0 +1,147 @@
+/* Ars Hortensis – weboldal. Színek, betűk, térközök a márkakönyv tokenjeiből. */
+:root {
+  --paper: #f5f2ec; --paper-raised: #fbf9f5; --stone: #d9d4ca;
+  --ink: #151515; --ink-muted: #4a4744; --rule: #151515;
+  --moss: #4f5d3f; --on-moss: #f5f2ec;
+  --cinnabar: #b4442e; --on-cinnabar: #f5f2ec; --focus: #b4442e;
+  --night: #121411; --night-ink: #f2eee6; --night-muted: #b9b4aa; --night-rule: #8c877e; --cinnabar-night: #e06a50;
+  --space-1: 4px; --space-2: 8px; --space-3: 16px; --space-4: 24px; --space-5: 40px; --space-6: 64px; --space-7: 104px;
+  --font-display: "Bodoni Moda", Didot, "Bodoni 72", Georgia, serif;
+  --font-sans: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 26px; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: var(--ink); }
+a:hover { color: var(--cinnabar); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 16px; top: 16px; background: var(--paper); padding: 8px 12px; z-index: 10; }
+
+.wrap { max-width: 1280px; margin: 0 auto; padding-left: var(--space-6); padding-right: var(--space-6); }
+.serif { font-family: var(--font-display); }
+.it { font-style: italic; font-weight: 400; }
+.lbl { font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; }
+.muted { color: var(--ink-muted); }
+.sec { padding-top: var(--space-7); padding-bottom: var(--space-7); }
+.h2 { margin: 0; font-family: var(--font-display); font-size: 48px; line-height: 1.05; font-weight: 500; }
+.head { display: flex; flex-direction: column; gap: 12px; }
+.row-between { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.g2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
+.g3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+.dark { background: var(--night); color: var(--night-ink); }
+.dark .muted { color: var(--night-muted); }
+.stone { background: var(--stone); }
+
+/* Gombok */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 48px; padding: 0 var(--space-4); font: 600 12px/16px var(--font-sans); letter-spacing: .24em; text-transform: uppercase; text-decoration: none; cursor: pointer; border: 1px solid var(--ink); background: transparent; color: var(--ink); border-radius: 0; }
+.btn--primary { background: var(--cinnabar); border-color: var(--cinnabar); color: var(--on-cinnabar); }
+.btn--primary:hover { color: var(--on-cinnabar); filter: brightness(1.08); }
+.btn--text { border-color: transparent; border-bottom: 1px solid var(--ink); padding: 0; min-height: 44px; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Fejléc */
+.site-head { border-bottom: 1px solid var(--rule); background: var(--paper); position: sticky; top: 0; z-index: 5; }
+.site-head .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 16px; padding-bottom: 16px; }
+.brand { white-space: nowrap; display: flex; align-items: center; gap: 14px; text-decoration: none; font-family: var(--font-display); font-size: 24px; letter-spacing: .04em; }
+.nav { display: flex; gap: 32px; align-items: center; }
+.nav a.nl { text-decoration: none; }
+
+/* Hős */
+.hero-title { margin: 0; font-family: var(--font-display); font-size: 104px; line-height: .95; font-weight: 500; letter-spacing: -.01em; }
+.hero-intro { max-width: 380px; display: flex; flex-direction: column; gap: 20px; }
+.lead { margin: 0; font-size: 19px; line-height: 30px; }
+.frame { border: 2px solid var(--rule); padding: var(--space-2); }
+.frame > * { outline: 1px solid var(--rule); }
+.seq { position: relative; aspect-ratio: 16 / 7; background: var(--stone); overflow: hidden; }
+.seq-scroll.is-scroll { height: 260vh; }
+.seq-scroll.is-scroll .seq-sticky { position: sticky; top: 84px; }
+.seq canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.seq .ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-size: 15px; line-height: 1.5; }
+.figcap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; line-height: 20px; color: var(--ink-muted); margin-top: 12px; }
+.proof { border-top: 1px solid var(--rule); padding-top: var(--space-4); gap: var(--space-4); }
+.proof div { display: flex; flex-direction: column; gap: 6px; }
+
+/* Művek */
+.work { display: flex; flex-direction: column; gap: var(--space-3); text-decoration: none; }
+.work .img { aspect-ratio: 4 / 5; background: var(--stone); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--ink-muted); }
+.work .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.work .no { font-family: var(--font-display); font-size: 30px; line-height: 1.15; }
+.work .title { font-family: var(--font-display); font-style: italic; font-size: 22px; line-height: 1.2; }
+
+/* Szolgáltatások */
+.svc { display: grid; grid-template-columns: 120px minmax(0, 1fr) minmax(0, 1.2fr) 200px; gap: 32px; align-items: baseline; padding: 32px 0; border-top: 1px solid var(--rule); }
+.svc:last-child { border-bottom: 1px solid var(--rule); }
+.svc .n { font-family: var(--font-display); font-size: 30px; }
+.svc .t { font-family: var(--font-display); font-style: italic; font-size: 28px; }
+
+/* Módszer */
+.steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.steps li { padding: 24px 24px 24px 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 24px; }
+.steps .n { font-family: var(--font-display); font-size: 40px; line-height: 1; }
+
+/* Custos */
+.plans { gap: var(--space-4); }
+.plan { border: 1px solid var(--night-rule); padding: 32px; display: flex; flex-direction: column; gap: 16px; }
+.plan.hl { border: 2px solid var(--night-ink); }
+.plan .price { font-family: var(--font-display); font-size: 40px; line-height: 1.1; }
+
+/* Ajánlatkérő */
+.q { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+.q-progress { height: 2px; background: var(--stone); margin-bottom: 28px; }
+.q-progress span { display: block; height: 2px; background: var(--ink); transition: width .3s; }
+.q-step { display: none; flex-direction: column; gap: 16px; border: 0; margin: 0; padding: 0; }
+.q-step legend { margin-bottom: 16px; padding: 0; }
+.q-step.on { display: flex; }
+.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.opt { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left; padding: 18px; min-height: 88px; background: var(--paper-raised); border: 1px solid var(--rule); cursor: pointer; color: var(--ink); font-family: var(--font-sans); border-radius: 0; }
+.opt[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.opt b { font-size: 16px; } .opt span { font-size: 14px; line-height: 20px; opacity: .8; }
+.area-out { font-family: var(--font-display); font-size: 48px; line-height: 1.1; }
+input[type=range] { width: 100%; accent-color: var(--ink); height: 32px; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.inp { width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid var(--rule); background: var(--paper-raised); font: 16px var(--font-sans); color: var(--ink); border-radius: 0; }
+.consent { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 22px; }
+.consent input { width: 20px; height: 20px; accent-color: var(--ink); margin-top: 1px; flex: none; }
+.err { color: var(--cinnabar); font-size: 14px; }
+.q-nav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.price { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: var(--space-4) 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.price .v { font-family: var(--font-display); font-size: 40px; line-height: 1.1; }
+.price .note { font-size: 13px; line-height: 20px; color: var(--ink-muted); }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 999px; background: var(--cinnabar); margin-right: var(--space-2); vertical-align: middle; }
+.q-done { display: none; flex-direction: column; gap: 16px; align-items: flex-start; }
+.q-done.on { display: flex; }
+
+/* Journal, kurátor, lábléc */
+.post { display: flex; flex-direction: column; gap: 12px; text-decoration: none; border-top: 1px solid var(--rule); padding-top: 20px; }
+.post .t { font-family: var(--font-display); font-size: 26px; line-height: 1.2; }
+.quote { margin: 0; font-family: var(--font-display); font-size: 34px; line-height: 1.25; }
+.site-foot { background: var(--ink); color: var(--night-ink); }
+.site-foot a { color: var(--night-ink); }
+.foot-bottom { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-size: 14px; line-height: 22px; color: var(--night-muted); border-top: 1px solid var(--night-rule); padding-top: 24px; }
+
+/* Mű-oldal */
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--space-6); }
+.facts { margin: 0; border-top: 1px solid var(--rule); }
+.facts div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.facts dd { margin: 0; }
+.ph-box { background: var(--paper); display: flex; align-items: center; justify-content: center; text-align: center; padding: 16px; font-size: 13px; color: var(--ink-muted); outline: 1px solid var(--rule); }
+.g4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
+
+@media (max-width: 900px) {
+  .wrap { padding-left: var(--space-3); padding-right: var(--space-3); }
+  .sec { padding-top: 72px; padding-bottom: 72px; }
+  .g2, .g3, .q, .split { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .nav a.nl { display: none; }
+  .hero-title { font-size: 56px; }
+  .h2 { font-size: 36px; }
+  .svc { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .seq { aspect-ratio: 4 / 5; }
+  .brand { font-size: 18px; gap: 10px; }
+  .site-head .btn--primary { padding: 0 14px; letter-spacing: .16em; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
